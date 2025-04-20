@@ -31,14 +31,44 @@ def main(execute: bool = False, model: str = "gpt-4o-mini"):
             print(Fore.RED + "\nVibepy: " + reply + "\n")
             
             if execute:
+                # Create code blocks from the reply
                 code_blocks = codeblock.create_code_block(reply)
-                try:
-                    # Try running the code blocks in order
-                    run.run_code_ordered(code_blocks)
-                except Exception as e:
-                    print(Fore.YELLOW + f"Trying alternative execution order due to: {str(e)}")
-                    # If that fails, try all permutations
-                    run.run_code_permutations(code_blocks)
+                max_retries = 5
+                retry_count = 0
+                last_error = None
+                
+                while retry_count < max_retries:
+                    try:
+                        # Try running the code blocks in order
+                        run.run_code_ordered(code_blocks)
+                        break  # Success, exit retry loop
+                    except Exception as e:
+                        last_error = str(e)
+                        retry_count += 1
+                        if retry_count < max_retries:
+                            print(Fore.YELLOW + f"Attempt {retry_count}/{max_retries} failed: {last_error}")
+                            print(Fore.YELLOW + "Retrying with error feedback...")
+                            
+                            # Get new response with error feedback
+                            error_response = client.chat.completions.create(
+                                model=model,
+                                messages=[
+                                    {"role": "system", "content": "You are a helpful Python coding assistant. Please first use uv to manage the environment: source .venv/bin/activate, then using uv add or uv pip install, then generate the code to be executed. Please keep the code blocks as few as possible and in order of being executed."},
+                                    {"role": "user", "content": user_input},
+                                    {"role": "assistant", "content": reply},
+                                    {"role": "user", "content": f"The code failed with error: {last_error}. Please fix the code and try again."}
+                                ]
+                            )
+                            reply = error_response.choices[0].message.content
+                            print(Fore.RED + "\nVibepy: " + reply + "\n")
+                            code_blocks = codeblock.create_code_block(reply)
+                        else:
+                            print(Fore.RED + f"Failed after {max_retries} attempts. Last error: {last_error}")
+                            # If all retries fail, try all permutations as last resort
+                            try:
+                                run.run_code_permutations(code_blocks)
+                            except Exception as e:
+                                print(Fore.RED + f"All execution attempts failed: {str(e)}")
         except Exception as e:
             print(Fore.RED + f"Error: {str(e)}")
 
