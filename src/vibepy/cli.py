@@ -14,7 +14,10 @@ def parse_args():
 
 def run_vibepy(run: bool = False, model: str = "gpt-4o-mini"):
     """Run vibepy.py with the specified run parameter."""
-    sys.argv = ["vibepy", "-r", str(run), "--model", model]
+    sys.argv = ["vibepy"]
+    if run:
+        sys.argv.append("-r")
+    sys.argv.extend(["--model", model])
     vibepy_main()
 
 def main():
