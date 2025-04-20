@@ -21,26 +21,19 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install uv
-      run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-    - name: Create virtual environment
-      run: uv venv
     - name: Install dependencies
       run: |
-        source .venv/bin/activate
-        uv pip install flake8 pytest
-        uv pip install -e .
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -e .
     - name: Lint with flake8
       run: |
-        source .venv/bin/activate
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.venv,venv,env,.tox,.eggs,*.egg,build,dist
         # exit-zero treats all errors as warnings
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=.venv,venv,env,.tox,.eggs,*.egg,build,dist
     - name: Test with pytest
       run: |
-        source .venv/bin/activate
         pytest
 
   release:
@@ -55,17 +48,13 @@ jobs:
       with:
         python-version: '3.10'
     
-    - name: Install uv
+    - name: Install dependencies
       run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-    
-    - name: Create virtual environment
-      run: uv venv
+        python -m pip install --upgrade pip
+        pip install build twine
     
     - name: Build package
-      run: |
-        source .venv/bin/activate
-        uv build
+      run: python -m build
     
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
@@ -81,6 +70,4 @@ jobs:
       env:
         PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       run: |
-        source .venv/bin/activate
-        uv pip install twine
         twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} 
