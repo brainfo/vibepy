@@ -2,13 +2,6 @@
 
 A Python REPL with hotkey functionality.
 
-## Features
-
-- Interactive Python REPL with hotkey support
-- OpenAI integration for code assistance
-- Color-coded output
-- Clipboard integration
-
 ## Installation
 
 ```bash
@@ -16,6 +9,8 @@ pip install vibepy
 ```
 
 ## Usage
+
+Have OPENAI_API_KEYS as one of your environment variables.  
 
 1. Start the vibepy CLI:
 ```bash
