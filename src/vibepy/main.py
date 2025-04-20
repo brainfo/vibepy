@@ -1,71 +1,58 @@
 """
-Vibepy: A Python REPL with hotkey functionality
+Vibepy: A Python REPL talking to and running codes from open-ai
 """
 
 import argparse
 import sys
 from colorama import init, Fore
-from readchar import readkey, key
 from openai import OpenAI
+import requests
+from vibepy import codeblock, run
 
 client = OpenAI()
-import requests
-import pyperclip
 
 def main():
     init()  # Initialize colorama
 
-    parser = argparse.ArgumentParser(description="Vibepy: A Python REPL with hotkey functionality")
-    parser.add_argument("--run", type=str, default="False", help="Run mode (True/False)")
+    parser = argparse.ArgumentParser(description="Vibepy: talking to and running codes from open-ai")
+    parser.add_argument("-r", "--run", action="store_true", help="Run mode (execute code from responses)")
     parser.add_argument("--model", type=str, default="gpt-4o-mini", help="Model to use")
     args = parser.parse_args()
 
-    run_mode = args.run.lower() == "true"
-
     print(Fore.GREEN + "Welcome to Vibepy!")
-    print(Fore.YELLOW + "Press ↑ to initiate vibepy")
-    print(Fore.YELLOW + "Press ↓ to copy last output to clipboard")
-    print(Fore.YELLOW + "Press ESC or 'q' to exit")
-
-    last_output = ""
+    print(Fore.YELLOW + "Press 'q' to exit")
 
     while True:
-        k = readkey()
-        if k == key.UP:
-            print(Fore.GREEN + "\nVibepy initiated!")
-            user_input = input(Fore.CYAN + "Say something: ")
+        user_input = input(Fore.CYAN + "Say something: ")
 
-            try:
-                if run_mode:
-                    # Execute the code
-                    exec(user_input)
-                else:
-                    # Get OpenAI's response
-                    response = client.chat.completions.create(model=args.model,
-                    messages=[
-                        {"role": "system", "content": "You are a helpful Python coding assistant."},
-                        {"role": "user", "content": user_input}
-                    ])
-                    reply = response.choices[0].message.content
-                    last_output = reply
-                    print(Fore.RED + "\nVibepy: " + reply + "\n")
-            except Exception as e:
-                print(Fore.RED + f"Error: {str(e)}")
+        try:
+            # Get OpenAI's response
+            response = client.chat.completions.create(model=args.model,
+            messages=[
+                {"role": "system", "content": "You are a helpful Python coding assistant."},
+                {"role": "user", "content": user_input}
+            ])
+            reply = response.choices[0].message.content
+            print(Fore.RED + "\nVibepy: " + reply + "\n")
+            
+            if args.run:
+                # Create code blocks from the reply
+                code_blocks = codeblock.create_code_block(reply)
+                try:
+                    # Try running the code blocks in order
+                    run.run_code_ordered(code_blocks)
+                except Exception as e:
+                    print(Fore.YELLOW + f"Trying alternative execution order due to: {str(e)}")
+                    # If that fails, try all permutations
+                    run.run_code_permutations(code_blocks)
+        except Exception as e:
+            print(Fore.RED + f"Error: {str(e)}")
 
-        elif k == key.DOWN:
-            if last_output:
-                pyperclip.copy(last_output)
-                print(Fore.GREEN + "\nLast output copied to clipboard!")
-            else:
-                print(Fore.YELLOW + "\nNo output to copy yet.")
-
-        elif k == key.ESC or k == 'q':
+        if user_input == 'q':
             print(Fore.RED + "\nExiting vibepy...")
             break
 
-        print(Fore.YELLOW + "\nPress ↑ to initiate vibepy")
-        print(Fore.YELLOW + "Press ↓ to copy last output to clipboard")
-        print(Fore.YELLOW + "Press ESC or 'q' to exit")
+        print(Fore.YELLOW + "Press 'q' to exit")
 
 if __name__ == "__main__":
     main()

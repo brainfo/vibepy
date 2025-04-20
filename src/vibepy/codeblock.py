@@ -1,5 +1,4 @@
 import re
-import pyperclip
 """
 define code block object
 init with language and code
@@ -9,10 +8,6 @@ class CodeBlock:
     def __init__(self, language, code):
         self.language = language
         self.code = code
-
-##define a method to copy the code to clipboard
-    def copy_to_clipboard(self):
-        pyperclip.copy(self.code)
 
 ## the object can be created from a string
 ## where the language and code can be extracted by regex
