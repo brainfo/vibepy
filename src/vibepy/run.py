@@ -32,7 +32,7 @@ def run_code_single(codeblock):
     elif language == "bash":
         run_shell_code(codeblock)
 
-def run_code_orderded(codeblocks):
+def run_code_ordered(codeblocks):
     for cb in codeblocks:
         logging.info(f"Running {cb.language} codeblock: {cb.code}")
         try:
@@ -44,7 +44,7 @@ def run_code_permutations(codeblocks, retry_count=0, max_retries=3):
     # Generate all permutations of the codeblocks
     for perm in itertools.permutations(codeblocks):
         logging.info(f"Trying permutation: {[cb.language for cb in perm]}")
-        run_code_orderded(perm)  # Run the code blocks in this permutation
+        run_code_ordered(perm)  # Run the code blocks in this permutation
         if retry_count < max_retries:
             retry_count += 1
         else:
