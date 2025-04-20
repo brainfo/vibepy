@@ -10,7 +10,7 @@ pip install vibepy
 Or if use uv  
 
 ```bash
-uv  pip install --no-cache vibepy==0.1.6
+uv  pip install --no-cache vibepy==0.1.7
 ```
 
 ## Usage
