@@ -69,13 +69,13 @@ Cases when running `vibepy -e`
 > # Add build-system section if missing  
 > if "build-system" not in data:  
 >     data["build-system"] = {}  
-
+> 
 > # These values are standard PEP 517/518 defaults, but we include torch as requested.  
 > data["build-system"]["requires"] = ["setuptools>=42", "wheel", "torch"]  
 > data["build-system"]["build-backend"] = "setuptools.build_meta"  
 > 
 > with open("pyproject.toml", "wb") as f:  
-    tomli_w.dump(data, f)  
+>    tomli_w.dump(data, f)  
 > ```  
 > This will:  
 > - Activate the environment  
