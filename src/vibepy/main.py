@@ -33,7 +33,7 @@ def main():
         k = readkey()
         if k == key.UP:
             print(Fore.GREEN + "\nVibepy initiated!")
-            user_input = input(Fore.CYAN + "Enter your Python code: ")
+            user_input = input(Fore.CYAN + "Say something: ")
 
             try:
                 if run_mode:
