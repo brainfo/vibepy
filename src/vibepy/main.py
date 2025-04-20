@@ -16,6 +16,7 @@ def main(execute: bool = False, model: str = "gpt-4o-mini"):
 
     print(Fore.GREEN + "Welcome to Vibepy!")
     print(Fore.YELLOW + "Press 'q' to exit")
+    role_spec = "You are a helpful Python coding assistant. Please first use uv to manage the environment: source .venv/bin/activate, then using uv add or uv pip install, then generate the code to be executed. Please keep the code blocks as few as possible and in order of being executed. formatting is critical, including indentations and special characters."
 
     while True:
         user_input = input(Fore.CYAN + "Say something: ")
@@ -24,7 +25,7 @@ def main(execute: bool = False, model: str = "gpt-4o-mini"):
             # Get OpenAI's response
             response = client.chat.completions.create(model=model,
             messages=[
-                {"role": "system", "content": "You are a helpful Python coding assistant. Please first use uv to manage the environment: source .venv/bin/activate, then using uv add or uv pip install, then generate the code to be executed. Please keep the code blocks as few as possible and in order of being executed."},
+                {"role": "system", "content": role_spec},
                 {"role": "user", "content": user_input}
             ])
             reply = response.choices[0].message.content
@@ -53,7 +54,7 @@ def main(execute: bool = False, model: str = "gpt-4o-mini"):
                             error_response = client.chat.completions.create(
                                 model=model,
                                 messages=[
-                                    {"role": "system", "content": "You are a helpful Python coding assistant. Please first use uv to manage the environment: source .venv/bin/activate, then using uv add or uv pip install, then generate the code to be executed. Please keep the code blocks as few as possible and in order of being executed."},
+                                    {"role": "system", "content": role_spec},
                                     {"role": "user", "content": user_input},
                                     {"role": "assistant", "content": reply},
                                     {"role": "user", "content": f"The code failed with error: {last_error}. Please fix the code and try again."}

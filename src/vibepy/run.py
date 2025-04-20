@@ -1,11 +1,9 @@
 import code
 from code import InteractiveInterpreter 
-## using exec
 import os
 import itertools  # Import itertools for permutations
 import logging
 import subprocess
-## compile the code
 
 def run_python_code(codeblock):
     language = codeblock.language
@@ -22,27 +20,24 @@ def run_shell_code(codeblock):
     source = codeblock.code
     logging.debug(f"Running shell code:\n{source}")
     
-    # Split the source into individual commands and handle paths
+    # Use bash explicitly
+    shell = '/bin/bash'
+    logging.debug(f"Using shell: {shell}")
+    
+    # Split the source into individual commands
     commands = []
     for cmd in source.split('\n'):
         cmd = cmd.strip()
         if not cmd or cmd.startswith('#'):
             continue
-        # Handle relative paths in commands
-        if cmd.startswith('cd '):
-            path = cmd[3:].strip()
-            if not os.path.isabs(path):
-                # Convert relative path to absolute path
-                path = os.path.abspath(path)
-            cmd = f'cd "{path}"'
         commands.append(cmd)
     
     logging.debug(f"Commands to run: {commands}")
     for cmd in commands:
         try:
             logging.debug(f"Running command: {cmd}")
-            # Use subprocess to run each command
-            result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
+            # Use subprocess to run each command with bash
+            result = subprocess.run(cmd, shell=True, executable=shell, check=True, capture_output=True, text=True)
             if result.stdout:
                 print(result.stdout)
         except subprocess.CalledProcessError as e:
@@ -85,4 +80,3 @@ def run_code_permutations(codeblocks, retry_count=0, max_retries=3):
             else:
                 logging.error("Max retries reached. Stopping execution.")
                 raise
-
