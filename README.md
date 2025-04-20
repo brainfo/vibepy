@@ -17,10 +17,15 @@ Have OPENAI_API_KEYS as one of your environment variables.
 vibepy
 ```
 
+If automatically run the returned code blocks:  
+
+```bash
+vibepy --run
+```
+
 2. Use the following hotkeys:
 - ↑ : Initiate vibepy
 - ↓ : Copy last output to clipboard
-- ESC: Exit vibepy
 
 ## Development
 
