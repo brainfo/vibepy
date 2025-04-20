@@ -1,21 +1,17 @@
+"""Test the CLI interface."""
+
 import pytest
 import readchar
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from vibepy.cli import main, run_vibepy
 
 def test_run_vibepy():
     """Test the run_vibepy function with different run parameters."""
-    # Skip if OpenAI API key is not available
-    if not os.environ.get("OPENAI_API_KEY"):
-        pytest.skip("OpenAI API key not available")
-        
     with patch('subprocess.run') as mock_run:
-        # Test with run=False
         run_vibepy(run=False)
         mock_run.assert_called_once_with(["python", "vibepy.py", "--run", "False"])
         
-        # Reset mock and test with run=True
         mock_run.reset_mock()
         run_vibepy(run=True)
         mock_run.assert_called_once_with(["python", "vibepy.py", "--run", "True"])
@@ -122,5 +118,15 @@ def test_main_help():
     """Test that --help flag works without initializing the full application."""
     with patch('sys.argv', ["vibepy", "--help"]):
         with patch('argparse.ArgumentParser.print_help') as mock_print_help:
-            main()
-            mock_print_help.assert_called_once() 
+            with pytest.raises(SystemExit) as excinfo:
+                main()
+            assert excinfo.value.code == 0
+            mock_print_help.assert_called_once()
+
+def test_main_without_api_key():
+    """Test that the application can run without OpenAI API key."""
+    with patch('sys.argv', ["vibepy"]):
+        with patch('vibepy.cli.run_vibepy') as mock_run_vibepy:
+            with patch.dict('os.environ', {}, clear=True):
+                main()
+                mock_run_vibepy.assert_called_once_with(run=False) 
