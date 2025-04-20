@@ -39,7 +39,7 @@ vibepy -e
 This will automatically run the returned code blocks once and present again a user input prompt.  
 If the execution returns errors,  
 You can then either 
-    - press any key to continue, then it will catch the error messages and input to the model to debug until 5 times
+    - press any key, or add say anything (add information) to continue, then it will catch the error messages and input to the model to debug until 5 times
     - press q to quit
 
 ## Development
