@@ -109,7 +109,7 @@ Cases when running `vibepy -e`
 > 
 > # Write back the modified pyproject.toml  
 > with open("pyproject.toml", "wb") as f:  
-    > tomli_w.dump(data, f)  
+>     tomli_w.dump(data, f)  
 > ```  
 > This script will:  
 > - Install any required tools.  
