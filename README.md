@@ -33,7 +33,7 @@ vibepy --model gpt-4.1-mini
 3. automatically run the returned code blocks:  
 
 ```bash
-vibepy -r
+vibepy -e
 ```
 
 ## Development

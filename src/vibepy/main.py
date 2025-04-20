@@ -24,14 +24,13 @@ def main(execute: bool = False, model: str = "gpt-4o-mini"):
             # Get OpenAI's response
             response = client.chat.completions.create(model=model,
             messages=[
-                {"role": "system", "content": "You are a helpful Python coding assistant."},
+                {"role": "system", "content": "You are a helpful Python coding assistant. Please first use uv to manage the environment: source .venv/bin/activate, then using uv add or uv pip install, then generate the code to be executed. Please keep the code blocks as few as possible and in order of being executed."},
                 {"role": "user", "content": user_input}
             ])
             reply = response.choices[0].message.content
             print(Fore.RED + "\nVibepy: " + reply + "\n")
             
             if execute:
-                # Create code blocks from the reply
                 code_blocks = codeblock.create_code_block(reply)
                 try:
                     # Try running the code blocks in order
