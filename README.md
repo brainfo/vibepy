@@ -27,9 +27,6 @@ vibepy
 ```bash
 # Install development dependencies
 pip install -e ".[dev]"
-
-# Run tests
-pytest
 ```
 
 ## License
