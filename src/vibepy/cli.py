@@ -3,7 +3,6 @@ Vibepy CLI interface
 """
 
 import argparse
-import sys
 from .main import main as vibepy_main
 
 def parse_args():
@@ -14,11 +13,7 @@ def parse_args():
 
 def run_vibepy(run: bool = False, model: str = "gpt-4o-mini"):
     """Run vibepy.py with the specified run parameter."""
-    sys.argv = ["vibepy"]
-    if run:
-        sys.argv.append("-r")
-    sys.argv.extend(["--model", model])
-    vibepy_main()
+    vibepy_main(run=run, model=model)
 
 def main():
     args = parse_args()
