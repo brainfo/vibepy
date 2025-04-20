@@ -11,7 +11,7 @@ from vibepy import codeblock, run
 
 client = OpenAI()
 
-def main(run: bool = False, model: str = "gpt-4o-mini"):
+def main(execute: bool = False, model: str = "gpt-4o-mini"):
     init()  # Initialize colorama
 
     print(Fore.GREEN + "Welcome to Vibepy!")
@@ -30,7 +30,7 @@ def main(run: bool = False, model: str = "gpt-4o-mini"):
             reply = response.choices[0].message.content
             print(Fore.RED + "\nVibepy: " + reply + "\n")
             
-            if run:
+            if execute:
                 # Create code blocks from the reply
                 code_blocks = codeblock.create_code_block(reply)
                 try:
@@ -51,7 +51,7 @@ def main(run: bool = False, model: str = "gpt-4o-mini"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Vibepy: talking to and running codes from open-ai")
-    parser.add_argument("-r", "--run", action="store_true", help="Run mode (execute code from responses)")
+    parser.add_argument("-e", "--execute", action="store_true", help="Execute code from responses")
     parser.add_argument("--model", type=str, default="gpt-4o-mini", help="Model to use")
     args = parser.parse_args()
-    main(run=args.run, model=args.model)
+    main(execute=args.execute, model=args.model)
