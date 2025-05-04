@@ -48,17 +48,17 @@ You can then either
 Cases when running `vibepy -e`
 
 ```bash
-Welcome to Vibepy!  
-Press 'q' to exit  
-Say something: I have a pyproject.toml, please add a [build-system] section and add torch in it  
+    Welcome to Vibepy!  
+    Press 'q' to exit  
+    Say something: I have a pyproject.toml, please add a [build-system] section and add torch in it  
 
-Vibepy: ```python
-# Add torch to the build-system in pyproject.toml using uv.  
+    Vibepy: ```python
+    # Add torch to the build-system in pyproject.toml using uv.  
 
-source .venv/bin/activate  
-uv add --dev build  
-uv pip install torch  
-```  
+    source .venv/bin/activate  
+    uv add --dev build  
+    uv pip install torch  
+    ```  
 
 ```python  
 # Python snippet to modify pyproject.toml  
