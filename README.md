@@ -60,98 +60,98 @@ Cases when running `vibepy -e`
     uv pip install torch  
     ```  
 
-```python  
-# Python snippet to modify pyproject.toml  
+    ```python  
+    # Python snippet to modify pyproject.toml  
 
-import tomllib  
-import tomli_w  
+    import tomllib  
+    import tomli_w  
 
-with open("pyproject.toml", "rb") as f:  
-    data = tomllib.load(f)  
+    with open("pyproject.toml", "rb") as f:  
+        data = tomllib.load(f)  
 
-# Add build-system section if missing  
-if "build-system" not in data:  
-    data["build-system"] = {}  
+    # Add build-system section if missing  
+    if "build-system" not in data:  
+        data["build-system"] = {}  
 
-# These values are standard PEP 517/518 defaults, but we include torch as requested.  
-data["build-system"]["requires"] = ["setuptools>=42", "wheel", "torch"]  
-data["build-system"]["build-backend"] = "setuptools.build_meta"  
+    # These values are standard PEP 517/518 defaults, but we include torch as requested.  
+    data["build-system"]["requires"] = ["setuptools>=42", "wheel", "torch"]  
+    data["build-system"]["build-backend"] = "setuptools.build_meta"  
 
-with open("pyproject.toml", "wb") as f:  
-   tomli_w.dump(data, f)  
-```  
-This will:  
-- Activate the environment  
-- Install build tools and torch  
-- Patch your TOML to have a proper `[build-system]` section with `torch` as a build-time requirement.  
+    with open("pyproject.toml", "wb") as f:  
+       tomli_w.dump(data, f)  
+    ```  
+    This will:  
+    - Activate the environment  
+    - Install build tools and torch  
+    - Patch your TOML to have a proper `[build-system]` section with `torch` as a build-time requirement.  
 
-ERROR:root:Error running codeblock: invalid syntax (<string>, line 5). 
-Attempt 1/5 failed: invalid syntax (<string>, line 5)  
-Retrying with error feedback...  
+    ERROR:root:Error running codeblock: invalid syntax (<string>, line 5). 
+    Attempt 1/5 failed: invalid syntax (<string>, line 5)  
+    Retrying with error feedback...  
 
-Vibepy: ```bash  
-source .venv/bin/activate 
-uv add --dev build  
-uv pip install torch  
-uv pip install tomli tomli-w  
-```
+    Vibepy: ```bash  
+    source .venv/bin/activate 
+    uv add --dev build  
+    uv pip install torch  
+    uv pip install tomli tomli-w  
+    ```
 
-```python  
-import tomli  
-import tomli_w  
+    ```python  
+    import tomli  
+    import tomli_w  
 
-# Read the existing pyproject.toml  
-with open("pyproject.toml", "rb") as f:  
-    data = tomli.load(f)  
+    # Read the existing pyproject.toml  
+    with open("pyproject.toml", "rb") as f:  
+        data = tomli.load(f)  
 
-# Add or update the build-system section  
-data["build-system"] = {  
-    "requires": ["setuptools>=42", "wheel", "torch"],  
-    "build-backend": "setuptools.build_meta"  
-}  
+    # Add or update the build-system section  
+    data["build-system"] = {  
+        "requires": ["setuptools>=42", "wheel", "torch"],  
+        "build-backend": "setuptools.build_meta"  
+    }  
 
-# Write back the modified pyproject.toml  
-with open("pyproject.toml", "wb") as f:  
-    tomli_w.dump(data, f)  
-```  
-This script will:  
-- Install any required tools.  
-- Read and update your `pyproject.toml` validly.  
+    # Write back the modified pyproject.toml  
+    with open("pyproject.toml", "wb") as f:  
+        tomli_w.dump(data, f)  
+    ```  
+    This script will:  
+    - Install any required tools.  
+    - Read and update your `pyproject.toml` validly.  
 
-ERROR:root:Error running command 'uv add --dev build': Command 'uv add --dev build' returned non-zero exit status 2.  
-error: No `project` table found in: `/mnt/run/jh/projects/pcos_sp/pyproject.toml`  
+    ERROR:root:Error running command 'uv add --dev build': Command 'uv add --dev build' returned non-zero exit status 2.  
+    error: No `project` table found in: `/mnt/run/jh/projects/pcos_sp/pyproject.toml`  
 
-ERROR:root:Error running codeblock: Command 'uv add --dev build' returned non-zero exit status 2.  
-Attempt 2/5 failed: Command 'uv add --dev build' returned non-zero exit status 2.  
-Retrying with error feedback...  
+    ERROR:root:Error running codeblock: Command 'uv add --dev build' returned non-zero exit status 2.  
+    Attempt 2/5 failed: Command 'uv add --dev build' returned non-zero exit status 2.  
+    Retrying with error feedback...  
 
-Vibepy: ```bash  
-source .venv/bin/activate  
-uv pip install torch tomli tomli-w  
-```  
+    Vibepy: ```bash  
+    source .venv/bin/activate  
+    uv pip install torch tomli tomli-w  
+    ```  
 
-```python 
-import tomli  
-import tomli_w  
+    ```python 
+    import tomli  
+    import tomli_w  
 
-with open("pyproject.toml", "rb") as f:  
-    data = tomli.load(f)  
+    with open("pyproject.toml", "rb") as f:  
+        data = tomli.load(f)  
 
-data["build-system"] = {  
-    "requires": ["setuptools>=42", "wheel", "torch"],  
-    "build-backend": "setuptools.build_meta"  
-}  
+    data["build-system"] = {  
+        "requires": ["setuptools>=42", "wheel", "torch"],  
+        "build-backend": "setuptools.build_meta"  
+    }  
 
-with open("pyproject.toml", "wb") as f:  
-    tomli_w.dump(data, f)  
-```  
+    with open("pyproject.toml", "wb") as f:  
+        tomli_w.dump(data, f)  
+    ```  
 
-Say something: q  
+    Say something: q  
 
-Vibepy: It seems like your message got cut off. Could you please provide more details or clarify your request?
+    Vibepy: It seems like your message got cut off. Could you please provide more details or clarify your request?
 
-
-Exiting vibepy...  
+    
+    Exiting vibepy...  
 ```
 
 ## Development
