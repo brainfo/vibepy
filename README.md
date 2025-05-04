@@ -2,6 +2,8 @@
 
 Talking to and running codes from open-ai.
 
+- [ ] I yoloed with agent and it now doesn't have the feature to keep contexts (more than one conversations). fixing
+
 ## Installation
 
 ```bash
