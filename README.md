@@ -2,6 +2,8 @@
 
 Talking to and running codes from open-ai.
 
+It has context memory for all conversations in one session before exit.
+
 ## Installation
 
 ```bash
@@ -10,7 +12,7 @@ pip install vibepy
 Or if use uv  
 
 ```bash
-uv  pip install --no-cache vibepy==0.2.3
+uv  pip install --no-cache vibepy==0.2.4
 ```
 
 ## Usage
@@ -38,9 +40,10 @@ vibepy -e
 
 This will automatically run the returned code blocks once and present again a user input prompt.  
 If the execution returns errors,  
-You can then either 
-    - press any key, or add say anything (add information) to continue, then it will catch the error messages and input to the model to debug until 5 times
-    - press q to quit
+You can then either  
+
+- press any key, or add say anything (add information) to continue, then it will catch the error messages and input to the model to debug until 5 times
+- press q to quit
 
 ## License
 
