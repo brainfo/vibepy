@@ -42,47 +42,6 @@ You can then either
     - press any key, or add say anything (add information) to continue, then it will catch the error messages and input to the model to debug until 5 times
     - press q to quit
 
-Cases when running `vibepy -e`
-
-> Welcome to Vibepy!
-> Press 'q' to exit
-> Say something: print hello world
-> 
-> Vibepy: To print "hello world" in Python, you just need to use the `print()` function. Here is the code you should execute:
-> 
-> ```python
-> print("hello world")
-> ```
-> 
-> hello world
-> Press 'q' to exit
-> Say something: calculate 1+1
-> 
-> Vibepy: ```bash
-> source .venv/bin/activate
-> ```
-> 
-> ```python
-> result = 1 + 1
-> print(result)
-> ```
-> 
-> 2
-> Press 'q' to exit
-> Say something: q
-> 
-> Vibepy: It seems like your message got cut off. Could you please provide more details or clarify your request?
-> 
-> 
-> Exiting vibepy...
-
-## Development
-
-```bash
-# Install development dependencies
-pip install -e ".[dev]"
-```
-
 ## License
 
 MIT License

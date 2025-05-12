@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vibepy"
-version = "0.2.3"
+version = "0.2.4"
 description = "have your terminal talking to and running codes from open-ai"
 readme = "README.md"
 requires-python = ">=3.10,<3.11"
