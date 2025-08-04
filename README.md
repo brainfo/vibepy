@@ -17,33 +17,50 @@ uv  pip install --no-cache vibepy==0.2.4
 
 ## Usage
 
-Have OPENAI_API_KEYS as one of your environment variables.  
+To use Vibepy, you need to set up your API key. The tool supports both OpenAI and OpenRouter.
 
-1. Start the vibepy CLI, and have conversation with open-ai
+### For OpenRouter Users (Recommended)
 
-    Default gpt-4o-mini
-
-```bash
-vibepy
-```
-2. Specify model
+Set the following environment variables:
 
 ```bash
-vibepy --model gpt-4.1-mini
+export OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY"
+export OPENROUTER_API_BASE="https://openrouter.ai/api/v1"
 ```
 
-3. automatically run the returned code blocks:  
+### For OpenAI Users
+
+Set the following environment variable:
 
 ```bash
-vibepy -e
+export OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
 ```
 
-This will automatically run the returned code blocks once and present again a user input prompt.  
-If the execution returns errors,  
-You can then either  
+### Running Vibepy
 
-- press any key, or add say anything (add information) to continue, then it will catch the error messages and input to the model to debug until 5 times
-- press q to quit
+1.  **Start the interactive REPL:**
+
+    ```bash
+    vibepy
+    ```
+
+2.  **Specify a model:**
+
+    The default model is `gpt-4o-mini`. You can specify a different one using the `--model` flag.
+
+    ```bash
+    vibepy --model gpt-4-turbo
+    ```
+
+3.  **Execute code automatically:**
+
+    Use the `-e` or `--execute` flag to automatically run the code blocks from the AI's response.
+
+    ```bash
+    vibepy -e
+    ```
+
+    If the code encounters an error, Vibepy will automatically retry up to 5 times, feeding the error back to the model for debugging. If it still fails, you can provide additional input to help the model fix the code.
 
 ## License
 

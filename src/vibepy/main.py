@@ -4,15 +4,16 @@ Vibepy: A Python REPL talking to and running codes from open-ai
 
 import argparse
 import sys
+import os
 from colorama import init, Fore
 from openai import OpenAI
 import requests
 from vibepy import codeblock, run
 
-client = OpenAI()
-
-def main(execute: bool = False, model: str = "gpt-4o-mini"):
+def main(execute: bool = False, model: str = "gpt-4o-mini", api_key: str = None, base_url: str = None):
     init()  # Initialize colorama
+
+    client = OpenAI(api_key=api_key, base_url=base_url)
 
     print(Fore.GREEN + "Welcome to Vibepy!")
     print(Fore.YELLOW + "Press 'q' to exit")
@@ -91,4 +92,14 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--execute", action="store_true", help="Execute code from responses")
     parser.add_argument("--model", type=str, default="gpt-4o-mini", help="Model to use")
     args = parser.parse_args()
-    main(execute=args.execute, model=args.model)
+
+    # Set API key and base URL from environment variables
+    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    base_url = os.environ.get("OPENROUTER_API_BASE") or os.environ.get("OPENAI_API_BASE")
+
+    main(
+        execute=args.execute,
+        model=args.model,
+        api_key=api_key,
+        base_url=base_url
+    )
